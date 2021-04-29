@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectShopping.DbContexts;
 
 namespace ProjectShopping.Migrations
 {
     [DbContext(typeof(ShopingDbContext))]
-    partial class ShopingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427181849_fourth")]
+    partial class fourth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +33,13 @@ namespace ProjectShopping.Migrations
                     b.Property<Guid>("PID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UID")
+                    b.Property<Guid>("UID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("orderOID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("prductPID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("price")
@@ -40,13 +48,16 @@ namespace ProjectShopping.Migrations
                     b.Property<int>("qunatity")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("userUID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("CID");
 
-                    b.HasIndex("OID");
+                    b.HasIndex("orderOID");
 
-                    b.HasIndex("PID");
+                    b.HasIndex("prductPID");
 
-                    b.HasIndex("UID");
+                    b.HasIndex("userUID");
 
                     b.ToTable("carts");
                 });
@@ -55,6 +66,9 @@ namespace ProjectShopping.Migrations
                 {
                     b.Property<Guid>("OID")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ProductPID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UID")
@@ -74,7 +88,7 @@ namespace ProjectShopping.Migrations
 
                     b.HasKey("OID");
 
-                    b.HasIndex("UID");
+                    b.HasIndex("ProductPID");
 
                     b.ToTable("orders");
                 });
@@ -127,10 +141,15 @@ namespace ProjectShopping.Migrations
                     b.Property<string>("size")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid?>("ProductPID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.HasKey("PID", "color", "size");
+
+                    b.HasIndex("ProductPID");
 
                     b.ToTable("stocks");
                 });
@@ -197,19 +216,15 @@ namespace ProjectShopping.Migrations
                 {
                     b.HasOne("ProjectShopping.Entities.Order", "order")
                         .WithMany("CartItems")
-                        .HasForeignKey("OID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("orderOID");
 
                     b.HasOne("ProjectShopping.Entities.Product", "prduct")
                         .WithMany("CartItems")
-                        .HasForeignKey("PID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("prductPID");
 
                     b.HasOne("ProjectShopping.Entities.User", "user")
-                        .WithMany("CartItems")
-                        .HasForeignKey("UID");
+                        .WithMany()
+                        .HasForeignKey("userUID");
 
                     b.Navigation("order");
 
@@ -220,24 +235,16 @@ namespace ProjectShopping.Migrations
 
             modelBuilder.Entity("ProjectShopping.Entities.Order", b =>
                 {
-                    b.HasOne("ProjectShopping.Entities.User", "user")
+                    b.HasOne("ProjectShopping.Entities.Product", null)
                         .WithMany("OrderHistory")
-                        .HasForeignKey("UID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
+                        .HasForeignKey("ProductPID");
                 });
 
             modelBuilder.Entity("ProjectShopping.Entities.Stock", b =>
                 {
-                    b.HasOne("ProjectShopping.Entities.Product", "product")
+                    b.HasOne("ProjectShopping.Entities.Product", null)
                         .WithMany("Inventory")
-                        .HasForeignKey("PID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
+                        .HasForeignKey("ProductPID");
                 });
 
             modelBuilder.Entity("ProjectShopping.Entities.Tags", b =>
@@ -262,14 +269,9 @@ namespace ProjectShopping.Migrations
 
                     b.Navigation("Inventory");
 
-                    b.Navigation("TagList");
-                });
-
-            modelBuilder.Entity("ProjectShopping.Entities.User", b =>
-                {
-                    b.Navigation("CartItems");
-
                     b.Navigation("OrderHistory");
+
+                    b.Navigation("TagList");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,8 +15,13 @@ namespace ProjectShopping.DbContexts
         }
         public DbSet<Product> products { set; get; }
         public DbSet<Tags> AllTags{ get; set; }
+        public DbSet<User> users { get; set; }
+        public DbSet<Stock> stocks { get; set; }
+        public DbSet<Order> orders { get; set; }
+        public DbSet<Cart> carts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             modelBuilder.Entity<Tags>()
                 .HasKey(t => new { t.PID, t.tag });
             modelBuilder.Entity<Stock>()
@@ -26,10 +31,10 @@ namespace ProjectShopping.DbContexts
                     {
                         PID = Guid.Parse("d28888e9-2ba9-473a-a40f-e38cb54f9b35"),
                         Name = "abcd",
-                        Price=20,
+                        Price = 20,
                         Description = "aasdf as dfgaskjdf askdfh askjdfh lasdf",
-                        Gender="Men",
-                        MainCategory="Shirt"
+                        Gender = "Men",
+                        MainCategory = "Shirt"
                     }
                 );
             modelBuilder.Entity<Tags>().HasData(

@@ -13,6 +13,10 @@ namespace ProjectShopping.Profiles
             CreateMap<Entities.Product, Models.ProductsDTO>();
             CreateMap<Models.ProductCreatingDTO, Entities.Product>();
             CreateMap<Models.TagProductionDTO, Entities.Tags>();
+            CreateMap<Models.StockProductionDTO, Entities.Stock>();
+            CreateMap<Models.UserCreationDTO, Entities.User>();
+            CreateMap<Models.OrderCreationDTO, Entities.Order>();
+            CreateMap<Models.CartCreationDTO, Entities.Cart>();
         }
         
     }

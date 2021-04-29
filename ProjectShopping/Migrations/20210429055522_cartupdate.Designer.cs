@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectShopping.DbContexts;
 
 namespace ProjectShopping.Migrations
 {
     [DbContext(typeof(ShopingDbContext))]
-    partial class ShopingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210429055522_cartupdate")]
+    partial class cartupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +33,7 @@ namespace ProjectShopping.Migrations
                     b.Property<Guid>("PID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UID")
+                    b.Property<Guid?>("UserUID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("price")
@@ -46,7 +48,7 @@ namespace ProjectShopping.Migrations
 
                     b.HasIndex("PID");
 
-                    b.HasIndex("UID");
+                    b.HasIndex("UserUID");
 
                     b.ToTable("carts");
                 });
@@ -207,15 +209,13 @@ namespace ProjectShopping.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjectShopping.Entities.User", "user")
+                    b.HasOne("ProjectShopping.Entities.User", null)
                         .WithMany("CartItems")
-                        .HasForeignKey("UID");
+                        .HasForeignKey("UserUID");
 
                     b.Navigation("order");
 
                     b.Navigation("prduct");
-
-                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("ProjectShopping.Entities.Order", b =>

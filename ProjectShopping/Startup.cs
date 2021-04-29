@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft;
 
 namespace ProjectShopping
 {
@@ -33,7 +34,7 @@ namespace ProjectShopping
             services.AddDbContext<ShopingDbContext>(options =>
             {
                 options.UseSqlServer(
-                    @"Server=.;Database=shoppingDB;Trusted_Connection=True;");
+                    @"Server=.;Database=shoppingFinalDB;Trusted_Connection=True;");
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }

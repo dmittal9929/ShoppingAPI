@@ -16,6 +16,10 @@ namespace ProjectShopping.Entities
         public string Gender { get; set; }
         public string MainCategory { get; set; }
         public ICollection<Tags> TagList { get; set; } = new List<Tags>();
+        public ICollection<Stock> Inventory { get; set; } = new List<Stock>();
+        public ICollection<Cart> CartItems { get; set; } = new List<Cart>();
+        
+
 
     }
 }

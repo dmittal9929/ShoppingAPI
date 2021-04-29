@@ -1,5 +1,6 @@
 ﻿using ProjectShopping.DbContexts;
 using ProjectShopping.Entities;
+using ProjectShopping.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace ProjectShopping.services
         }
         public IEnumerable<Product> GetProducts()
         {
+            Console.WriteLine("inside");
             return _context.products.ToList();
         }
 
@@ -30,11 +32,67 @@ namespace ProjectShopping.services
             {
                 tag.PID = product.PID;  
             }
-
-
-
-            
+            foreach(var item in product.Inventory)
+            {
+                item.PID = product.PID;
+            }
             _context.Add(product);
+        }
+
+        public Product GetProduct(Guid id)
+        {
+            Product p = _context.products.Find(id);
+            Console.WriteLine("inside");
+            var json = 
+            p.Inventory = _context.stocks.Where(s => s.PID == id).ToList();
+            return p;
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return (_context.users);
+        }
+        public bool AddUser(User user)
+        {
+            var u = _context.users.Where(u => u.email == user.email);
+            if (u.Count()!= 0)
+            {
+                return false;
+            }
+            user.UID = new Guid();
+            _context.users.Add(user);
+            return true;
+        }
+        public bool validateUser(UserLoginDTO user) {
+            var u = _context.users.Where(us => (us.email == user.email) && (us.password == user.password));
+            if (u.Count() == 0)
+            {
+                return false;
+            }
+            return true;
+
+
+        }
+        public void AddOrder(Order order,Guid uid)
+        {
+            order.OID = new Guid();
+            order.UID = uid;
+            order.oDate = DateTime.Today;
+            float grandTotal = 0f;
+            foreach(var item in order.CartItems)
+            {
+                item.CID = new Guid();
+                Console.WriteLine(item.PID);
+                item.OID = order.OID;
+                item.UID = uid;
+
+                grandTotal += ((int)item.price * (int)item.qunatity);
+
+            }
+            
+            order.total = grandTotal * 1.18;
+            Console.WriteLine(order.total);
+            _context.Add(order);
         }
 
         public bool save()

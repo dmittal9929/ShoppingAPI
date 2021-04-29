@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectShopping.DbContexts;
 
 namespace ProjectShopping.Migrations
 {
     [DbContext(typeof(ShopingDbContext))]
-    partial class ShopingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427184455_seven")]
+    partial class seven
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +27,7 @@ namespace ProjectShopping.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OID")
+                    b.Property<Guid?>("OID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("PID")
@@ -197,9 +199,7 @@ namespace ProjectShopping.Migrations
                 {
                     b.HasOne("ProjectShopping.Entities.Order", "order")
                         .WithMany("CartItems")
-                        .HasForeignKey("OID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OID");
 
                     b.HasOne("ProjectShopping.Entities.Product", "prduct")
                         .WithMany("CartItems")

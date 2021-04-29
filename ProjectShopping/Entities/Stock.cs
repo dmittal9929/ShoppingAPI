@@ -9,6 +9,8 @@ namespace ProjectShopping.Entities
     public class Stock
     {
         [ForeignKey("PID")]
+        [System.Text.Json.Serialization.JsonIgnore]
+        public Product product { get; set; }
         public Guid PID { get; set; }
 
         public string size { get; set; }

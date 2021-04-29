@@ -26,9 +26,17 @@ namespace ProjectShopping.Controllers
         public IEnumerable<ProductsDTO> GetProducts()
         {
 
-            var productfFromRepo  = _repository.GetProducts();
-            return (_mapper.Map<IEnumerable<ProductsDTO>>(productfFromRepo));
+            var productFromRepo = _repository.GetProducts();
+            return (_mapper.Map<IEnumerable<ProductsDTO>>(productFromRepo));
         }
+        
+
+        [HttpGet("{id}")]
+        public ActionResult<Product> GetProduct(Guid id)
+        {
+            return _repository.GetProduct(id);
+        }
+
 
         [HttpPost]
         public ActionResult PostProducts(ProductCreatingDTO p)

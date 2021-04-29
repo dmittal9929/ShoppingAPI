@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectShopping.DbContexts;
 
 namespace ProjectShopping.Migrations
 {
     [DbContext(typeof(ShopingDbContext))]
-    partial class ShopingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427182643_sixth")]
+    partial class sixth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,7 +33,7 @@ namespace ProjectShopping.Migrations
                     b.Property<Guid>("PID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("UID")
+                    b.Property<Guid>("UID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("price")
@@ -60,6 +62,9 @@ namespace ProjectShopping.Migrations
                     b.Property<Guid>("UID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("UserUID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("dAddress")
                         .HasColumnType("nvarchar(max)");
 
@@ -74,7 +79,7 @@ namespace ProjectShopping.Migrations
 
                     b.HasKey("OID");
 
-                    b.HasIndex("UID");
+                    b.HasIndex("UserUID");
 
                     b.ToTable("orders");
                 });
@@ -127,10 +132,15 @@ namespace ProjectShopping.Migrations
                     b.Property<string>("size")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid?>("ProductPID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("quantity")
                         .HasColumnType("int");
 
                     b.HasKey("PID", "color", "size");
+
+                    b.HasIndex("ProductPID");
 
                     b.ToTable("stocks");
                 });
@@ -209,7 +219,9 @@ namespace ProjectShopping.Migrations
 
                     b.HasOne("ProjectShopping.Entities.User", "user")
                         .WithMany("CartItems")
-                        .HasForeignKey("UID");
+                        .HasForeignKey("UID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("order");
 
@@ -220,24 +232,16 @@ namespace ProjectShopping.Migrations
 
             modelBuilder.Entity("ProjectShopping.Entities.Order", b =>
                 {
-                    b.HasOne("ProjectShopping.Entities.User", "user")
+                    b.HasOne("ProjectShopping.Entities.User", null)
                         .WithMany("OrderHistory")
-                        .HasForeignKey("UID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
+                        .HasForeignKey("UserUID");
                 });
 
             modelBuilder.Entity("ProjectShopping.Entities.Stock", b =>
                 {
-                    b.HasOne("ProjectShopping.Entities.Product", "product")
+                    b.HasOne("ProjectShopping.Entities.Product", null)
                         .WithMany("Inventory")
-                        .HasForeignKey("PID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("product");
+                        .HasForeignKey("ProductPID");
                 });
 
             modelBuilder.Entity("ProjectShopping.Entities.Tags", b =>
