@@ -14,10 +14,12 @@ namespace ProjectShopping.services
 
         Product GetProduct(Guid id);
         IEnumerable<User> GetAllUsers();
+        public IEnumerable<Product> GetProducts(String gender);
         bool AddUser(User user);
         bool validateUser(UserLoginDTO user);
 
         void AddOrder(Order order,Guid uid);
+        IEnumerable<Order> GetOrders(Guid  uid);
         bool save();
     }
 }

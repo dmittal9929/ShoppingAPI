@@ -32,6 +32,12 @@ namespace ProjectShopping.Controllers
             return Ok();
 
         }
+        [HttpGet]
+        public IEnumerable<OrderReturnDTO> GetOrders(Guid id)
+        {
+               var ordersFroRepo = _repository.GetOrders(id);
+            return _mapper.Map<IEnumerable<OrderReturnDTO>>(ordersFroRepo);
+        }
 
     }
 }

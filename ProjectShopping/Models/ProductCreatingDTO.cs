@@ -11,6 +11,7 @@ namespace ProjectShopping.Models
         public String Name { get; set; }
         public String Description { get; set; }
         public int Price { get; set; }
+        public String Image { get; set; }
         public string Gender { get; set; }
         public string MainCategory { get; set; }
 

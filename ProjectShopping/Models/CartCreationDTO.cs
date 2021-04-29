@@ -9,6 +9,6 @@ namespace ProjectShopping.Models
     {
         public Guid PID { get; set; }
         public int price { get; set; }
-        public int qunatity { get; set; }
+        public int quantity { get; set; }
     }
 }

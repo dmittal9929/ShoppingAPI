@@ -21,6 +21,15 @@ namespace ProjectShopping.services
             return _context.products.ToList();
         }
 
+        public IEnumerable<Product> GetProducts(String gender)
+        {
+            if (String.IsNullOrWhiteSpace(gender))
+            {
+                return GetProducts();
+            }
+            var product = _context.products.Where(p => p.Gender.ToLower() == gender.ToLower());
+            return product.ToList();
+        }
         public void AddProduct(Product product)
         {
             if (product == null)
@@ -86,13 +95,22 @@ namespace ProjectShopping.services
                 item.OID = order.OID;
                 item.UID = uid;
 
-                grandTotal += ((int)item.price * (int)item.qunatity);
+                grandTotal += ((int)item.price * (int)item.quantity);
 
             }
             
             order.total = grandTotal * 1.18;
             Console.WriteLine(order.total);
             _context.Add(order);
+        }
+        public IEnumerable<Order> GetOrders(Guid uid)
+        {
+            IEnumerable<Order> orders = _context.orders.Where(o => o.UID == uid).ToList();
+            foreach(var order in orders)
+            {
+                order.CartItems = _context.carts.Where(item => item.OID == order.OID).ToList();
+            }
+            return orders;
         }
 
         public bool save()

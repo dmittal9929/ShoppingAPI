@@ -20,10 +20,11 @@ namespace ProjectShopping.Entities
         public Guid? UID { get; set; }
        
         [ForeignKey("OID")]
+        [System.Text.Json.Serialization.JsonIgnore]
         public Order order { get; set; }
         public Guid OID { get; set; }
         public int price { get; set; }
-        public int qunatity { get; set; }
+        public int quantity { get; set; }
 
     }
 }
