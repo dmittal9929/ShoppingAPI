@@ -38,13 +38,6 @@ namespace ProjectShopping.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult PostProducts(ProductCreatingDTO p)
-        {
-            var productEntity = _mapper.Map<Product>(p);
-            _repository.AddProduct(productEntity);
-            _repository.save();
-            return Ok();
-        }
+        
     }
 }

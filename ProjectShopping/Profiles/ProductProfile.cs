@@ -19,6 +19,7 @@ namespace ProjectShopping.Profiles
             CreateMap<Models.CartCreationDTO, Entities.Cart>();
             CreateMap<Entities.Order, Models.OrderReturnDTO>();
             CreateMap<Entities.Cart, Models.CartCreationDTO>();
+            CreateMap<Models.ProductUpdateDTO, Entities.Product>();
         }
         
     }

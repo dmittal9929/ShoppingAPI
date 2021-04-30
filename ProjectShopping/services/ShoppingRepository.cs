@@ -73,6 +73,7 @@ namespace ProjectShopping.services
             return true;
         }
         public bool validateUser(UserLoginDTO user) {
+            Console.WriteLine(user.email + " " + user.password);
             var u = _context.users.Where(us => (us.email == user.email) && (us.password == user.password));
             if (u.Count() == 0)
             {
@@ -80,6 +81,23 @@ namespace ProjectShopping.services
             }
             return true;
 
+
+        }
+        public bool validateUserAdmin(UserLoginDTO user)
+        {
+            Console.WriteLine(user.email + " " + user.password);
+            var u = _context.users.Where(us => (us.email == user.email) && (us.password == user.password)&&(us.role=='A'));
+            if (u.Count() == 0)
+            {
+                return false;
+            }
+            return true;
+
+
+        }
+
+        public void UpdateProduct()
+        {
 
         }
         public void AddOrder(Order order,Guid uid)
