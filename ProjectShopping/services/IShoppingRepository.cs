@@ -14,7 +14,7 @@ namespace ProjectShopping.services
 
         Product GetProduct(Guid id);
         IEnumerable<User> GetAllUsers();
-        public IEnumerable<Product> GetProducts(String gender);
+        public IEnumerable<Product> GetProducts(String gender,String search);
         bool AddUser(User user);
         User validateUser(UserLoginDTO user);
         public User validateUserAdmin(UserLoginDTO user);

@@ -26,14 +26,24 @@ namespace ProjectShopping.services
             return res;
         }
 
-        public IEnumerable<Product> GetProducts(String gender)
+        public IEnumerable<Product> GetProducts(String gender,String search)
         {
-            if (String.IsNullOrWhiteSpace(gender))
+            if (String.IsNullOrWhiteSpace(gender) && String.IsNullOrWhiteSpace(search))
             {
                 return GetProducts();
             }
-            var product = _context.products.Where(p => p.Gender.ToLower() == gender.ToLower());
-            return product.ToList();
+            var collection = _context.products as IQueryable<Product>;
+            if (!String.IsNullOrWhiteSpace(gender))
+            {
+                collection = collection.Where(p =>p.Gender.ToLower() == gender.ToLower());
+            }
+            if (!String.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim();
+                collection = collection.Where(p => p.MainCategory.ToLower() == search.ToLower());
+            }
+
+            return collection.ToList();
         }
         public void AddProduct(Product product)
         {

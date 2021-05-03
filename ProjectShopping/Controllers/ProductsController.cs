@@ -23,10 +23,10 @@ namespace ProjectShopping.Controllers
             _repository = repository;
         }
         [HttpGet]
-        public IEnumerable<ProductsDTO> GetProducts(string gender)
+        public IEnumerable<ProductsDTO> GetProducts(string gender,string search)
         {
 
-            var productFromRepo = _repository.GetProducts(gender);
+            var productFromRepo = _repository.GetProducts(gender,search);
             return (_mapper.Map<IEnumerable<ProductsDTO>>(productFromRepo));
         }
         
