@@ -25,14 +25,14 @@ namespace ProjectShopping.Controllers
         
         [HttpPost]
         [Route("Login")]
-        public ActionResult LoginAdmin([FromBody] UserLoginDTO user)
+        public ActionResult<User> LoginAdmin([FromBody] UserLoginDTO user)
         {
             var res = _repository.validateUserAdmin(user);
-            if (!res)
+            if (res==null)
             {
                 return StatusCode(401, $"email or password invalid");
             }
-            return Ok();
+            return res;
         }
 
         [HttpPut]
@@ -47,7 +47,7 @@ namespace ProjectShopping.Controllers
         }
 
         [HttpPost]
-        [Route("/product")]
+        [Route("product")]
         public ActionResult PostProducts(ProductCreatingDTO p)
         {
             var productEntity = _mapper.Map<Product>(p);

@@ -25,7 +25,9 @@ namespace ProjectShopping.Controllers
         [HttpPost]
         public ActionResult PlaceOrder(Guid id,[FromBody]OrderCreationDTO order)
         {
-            Console.WriteLine(id);
+
+
+            Console.WriteLine(order);
             var EntityOrder = _mapper.Map<Order>(order);
             _repository.AddOrder(EntityOrder,id);
             _repository.save();

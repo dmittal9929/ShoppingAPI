@@ -47,14 +47,14 @@ namespace ProjectShopping.Controllers
 
         [HttpPost]
         [Route("login")]
-        public ActionResult Login([FromBody] UserLoginDTO user)
+        public ActionResult<User> Login([FromBody] UserLoginDTO user)
         {
             var res = _repository.validateUser(user);
-            if (!res)
+            if (res==null)
             {
                 return StatusCode(401, $"email or password invalid");
             }
-            return Ok();
+            return res;
         }
     }
 }

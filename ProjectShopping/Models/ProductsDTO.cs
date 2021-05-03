@@ -14,5 +14,6 @@ namespace ProjectShopping.Models
         public int Price { get; set; }
         public string Gender { get; set; }
         public string MainCategory { get; set; }
+        public ICollection<StockProductionDTO> Inventory { get; set; } = new List<StockProductionDTO>();
     }
 }

@@ -18,7 +18,12 @@ namespace ProjectShopping.services
         public IEnumerable<Product> GetProducts()
         {
             Console.WriteLine("inside");
-            return _context.products.ToList();
+            var res = _context.products.ToList();
+           foreach(var prod in res)
+            {
+                prod.Inventory = _context.stocks.Where(s => s.PID == prod.PID).ToList();
+            }
+            return res;
         }
 
         public IEnumerable<Product> GetProducts(String gender)
@@ -72,26 +77,26 @@ namespace ProjectShopping.services
             _context.users.Add(user);
             return true;
         }
-        public bool validateUser(UserLoginDTO user) {
+        public User validateUser(UserLoginDTO user) {
             Console.WriteLine(user.email + " " + user.password);
             var u = _context.users.Where(us => (us.email == user.email) && (us.password == user.password));
             if (u.Count() == 0)
             {
-                return false;
+                return null;
             }
-            return true;
+            return u.First();
 
 
         }
-        public bool validateUserAdmin(UserLoginDTO user)
+        public User validateUserAdmin(UserLoginDTO user)
         {
             Console.WriteLine(user.email + " " + user.password);
             var u = _context.users.Where(us => (us.email == user.email) && (us.password == user.password)&&(us.role=='A'));
             if (u.Count() == 0)
             {
-                return false;
+                return null;
             }
-            return true;
+            return u;
 
 
         }

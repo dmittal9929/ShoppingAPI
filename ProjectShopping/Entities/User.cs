@@ -15,7 +15,7 @@ namespace ProjectShopping.Entities
         public string password { get; set; }
         public DateTime dob { get; set; }
         public string address { get; set; }
-        public int number { get; set; }
+        public Double number { get; set; }
         public char role { get; set; }
         public ICollection<Order> OrderHistory { get; set; } = new List<Order>();
         public ICollection<Cart> CartItems { get; set; } = new List<Cart>();
