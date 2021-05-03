@@ -96,7 +96,7 @@ namespace ProjectShopping.services
             {
                 return null;
             }
-            return u;
+            return u.First();
 
 
         }
